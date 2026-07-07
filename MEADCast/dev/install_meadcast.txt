@@ -1,0 +1,54 @@
+Outer machine (the following packages are required for building kernel):
+```sh
+sudo apt install flex bison libelf-dev libssl-dev bc dwarves python3-yaml libguestfs-tools
+```
+
+Create the ssh key:
+```sh
+ssh-keygen -t ed25519
+```
+
+Inner VM: (using the no-cloud image: debian-12-nocloud-amd64.qcow2 (https://gemmei.ftp.acc.umu.se/images/cloud/bookworm/latest/debian-12-nocloud-amd64.qcow2), starting with the command:
+```sh
+sudo -E kvm -hda debian-12-nocloud-amd64.qcow2 -m 1024
+```
+then login by root
+)
+```sh
+sudo apt update
+sudo apt openssh-client (for the scp command)
+```
+
+Before starting the inner VM using the no-cloud image, we should increase its disk size to 5GB in total (its disk space is 2GB in the beginning, which is not enough in my case to install some software and extract the dirty kernel and build it.
+To resize the qcow2 image, follow the below instructions.
+
+# resize kvm -qcow disk image:
+Source: https://computingforgeeks.com/how-to-extend-increase-kvm-virtual-machine-disk-size/
+https://computingforgeeks.com/extending-root-filesystem-using-lvm-linux/
+https://computingforgeeks.com/resize-ext-and-xfs-root-partition-without-lvm/
+
+1. Shutdown the kvm machine
+2. sudo qemu-img resize kvm.qcow +10G
+   sudo qemu-img info kvm.qcow
+3. Start the kvm machine, use one of the following command to observe from inside the current disk status:
+   lsblk
+   df -h
+   fdisk -l
+4. Install cloud utils from inside to use the command growpart
+   sudo apt install cloud-guest-utils gdisk
+5. Use growpart to extend the partition
+   sudo growpart /dev/sda 1 (to increase /dev/sda1 to all available space)
+   check with lsblk
+6. Resize the file system
+   sudo resize2fs /dev/sda1
+
+
+
+Run the command sudo python3 mk_topo.py as instructed in https://github.com/schmidtadrian/MEADcast/tree/main/src/mk_topo
+
+use the correct ssh-key for the switch -ssh
+use the clean template image for the switch --backing-file /var/lib/libvirt/images/templates/debian-12-nocloud-amd64.raw.
+For my first successful try, this image downloaded here work: https://saimei.ftp.acc.umu.se/images/cloud/bookworm/latest/debian-12-nocloud-amd64.raw
+(I guess, this qcow2 image will also work, even better because it is smaller: https://gemmei.ftp.acc.umu.se/images/cloud/bookworm/latest/debian-12-nocloud-amd64.qcow2, but I haven't tested it yet)
+
+I install some packages in the raw image, which will then become the base (backing file) for other inner VMs: apt install git tmux net-tools vim openssh-client openssh-server rsync netcat-openbsd 

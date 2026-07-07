@@ -1,0 +1,66 @@
+Installation:
+sudo apt install vim-latexsuite
+edit ~/.vimrc as in http://vim-latex.sourceforge.net/documentation/latex-suite/recommended-settings.html, add these lines:
+
+filetype plugin on
+set shellslash
+let g:tex_flavor='latex'
+
+Then, enable latex-suite:
+$vim-addon-manager install latex-suite
+or
+$vim_addons -w install latex-suite
+(see file /usr/share/doc/vim-latexsuite/README.Debian)
+
+Usage:
+ref: http://vim-latex.sourceforge.net/documentation/latex-suite/
+
+1. Environment mapping:
+As an example, when you type EFI in |insert-mode|, you will get the following:
+\begin{figure}[<+htpb+>]
+    \centering
+    \includegraphics{<+file+>}
+    \caption{<+caption text+>}
+    \label{fig:<+label+>}
+\end{figure}<++>
+The text <+htpb+> will be selected and you will be left in |select-mode| so that you can continue typing straight away. After having typed in the placement specifier, you can press <Ctrl-J> (while still in insert-mode). This will take you directly to the next "place-holder". i.e, <+file+> will be visually selected with Vim in select mode again for typing in the file name. This saves on a lot of key presses.
+
+F5, 
+EFI, EIT, EEN,...
+ECE-->,ce in visual mode.
+
+2. Command mapping:
+F7
+example, section->F7
+
+3. Font mapping:
+FEM, FSL, FIT, FTT
+`em,`it, `tt in visual mode 
+
+4. Section mapping:
+SPA for part
+SCH for chapter
+SSE for section
+SSS for subsection
+SS2 for subsubsection
+SPG for paragraph
+SSP for subparagraph
+
+5. BibTex shortcuts:
+BBB, BBL, BBH, BBX
+
+6. Folding:
+\rf: refresh folding
+zR: expand all
+
+7. Define own macros:
+:call IMAP('IFG', '\includeFigure{}{<++>}{<++>}{<++>}{<++>}<++>', 'tex')
+or to make it a permanent macro, you can create the file: ~/.vim/ftplugin/tex.vim and put the line:
+call IMAP('IFG', '\includeFigure{}{<++>}{<++>}{<++>}{<++>}<++>', 'tex')
+in this file.
+source: http://vim-latex.sourceforge.net/documentation/latex-suite/ls-new-macros.html
+
+
+%stopzone in vim for latex to correct the syntax highlighting caused by $ signs in the listing/verbatim environment
+
+In command mode, the ampersand (&) comment the line where the cursor is standing.

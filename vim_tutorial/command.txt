@@ -1,0 +1,28 @@
+set mouse=a
+set mouse=  --> to disable the preceding command
+
+set number
+set nonumber
+
+syntax on/off
+
+set spelling/nospelling
+
+set colorscheme default/morning/evening
+
+put cursor/pointer on a word, press * to search this word for the next one, type ciw (change in word), type value to replace, escape, press n/N to jump to next/previous word, press . to repeat the last change.
+
+:r! sed -n 147,227p /path/to/foo/foo.c #source:https://stackoverflow.com/questions/240244/vim-how-to-read-range-of-lines-from-a-file-into-current-buffer
+:r! sed -n '100,$p' file # read from line 100 to the end of file
+
+tabedit or tabe: to open a new file in a new tab
+:tabn (next) or :tabp (previous) to move to the next or previous tab
+
+:e to see the current file name
+1 Ctr G --> see full path of the current file
+
+:set cursorcolumn/cursorline/nocursorline/nocursorcolumn --> to see alignment
+
+:set textwidth=80
+Select the lines of text you want to re-format with "V" and reformat it with "gq"
+

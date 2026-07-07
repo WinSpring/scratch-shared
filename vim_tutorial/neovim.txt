@@ -1,0 +1,52 @@
+Tested on Debian 12:
+
+sudo apt install cmake clangd-19 wget git build-essential libclang-dev
+
+sudo apt install bison byacc
+
+
+# install neovim: 
+https://github.com/neovim/neovim/releases
+
+# install clangd:
+https://github.com/clangd/clangd/releases
+
+# configure neovim via kickstart.nvim
+https://github.com/nvim-lua/kickstart.nvim
+
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh  (to have the command cargo below - package manager for rust)
+cargo install --locked tree-sitter-cli 
+
+
+enable clangd in nvim config: ~/.config/nvim/init.lua
+vim.lsp.enable("clangd") or similar in this config file
+
+
+An example to generate compile_commands.json for linux kernel using bear:
+sudo apt install bear
+cd linux-kernel-(directory)
+make mrproper
+make defconfig
+bear -- make -j4
+
+(may need to install some packages before to build linux-6.5.y, e.g.,: 
+sudo apt install libssl-dev bc libelf-dev flex)
+
+
+
+view $MYVIMRC for more detail while opening nvim
+
+gd: go to definition
+
+If gd does not jump correctly to the definition, another way is to use ctags:
+https://kulkarniamit.github.io/whatwhyhow/howto/use-vim-ctags.html
+
+sudo apt-get update && sudo apt-get install -y exuberant-ctags
+move to the project directory
+ctags --recurse=yes --exclude=.git --exclude=BUILD --exclude=.svn --exclude=vendor/* --exclude=node_modules/* --exclude=db/* --exclude=log/* --exclude=build
+
+vim -t tags [tags is the tags file generated from the command above] 
+
+ctrl + ]: move to the tag (or the definition)
+
+:bd close a file in buffer

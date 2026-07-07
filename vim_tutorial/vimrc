@@ -1,0 +1,36 @@
+" to allow the C-arrow to move a word in vim in tmux, note that, another file
+" ~/.tmux.conf with the line "set-window-option -g xterm-keys on" is necessary
+set encoding=utf-8
+if &term =~ '^screen'
+    " tmux will send xterm-style keys when its xterm-keys option is on
+    execute "set <xUp>=\e[1;*A"
+    execute "set <xDown>=\e[1;*B"
+    execute "set <xRight>=\e[1;*C"
+    execute "set <xLeft>=\e[1;*D"
+endif
+"source: https://superuser.com/questions/401926/how-to-get-shiftarrows-and-ctrlarrows-working-in-vim-in-tmux
+
+" latex-suite
+" REQUIRED. This makes vim invoke Latex-Suite when you open a tex file.
+filetype plugin on
+" IMPORTANT: win32 users will need to have 'shellslash' set so that latex
+" can be called correctly.
+set shellslash
+" OPTIONAL: This enables automatic indentation as you type.
+filetype indent on
+" OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
+" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
+" The following changes the default filetype back to 'tex':
+let g:tex_flavor='latex'
+
+"from pathogen.vim - a runtimepath manager
+execute pathogen#infect()
+syntax on
+filetype plugin indent on
+
+" to disable the docstring window to popup during completion:
+" https://github.com/davidhalter/jedi-vim
+autocmd FileType python setlocal completeopt-=preview
+let g:pymode_rope=0
+
+
