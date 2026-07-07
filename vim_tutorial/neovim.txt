@@ -45,14 +45,13 @@ vim.lsp.enable("clangd") or similar in this config file
 
 An example to generate compile_commands.json for linux kernel using bear:
 sudo apt install bear
+(install some packages before to build linux-6.5.y:) 
+sudo apt install libssl-dev bc libelf-dev flex
 git clone --depth 1 --branch linux-6.5.y git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git linux-kernel-6.5.y
 cd linux-kernel-6.5.y
 make mrproper
 make defconfig
 bear -- make -j4
-
-(may need to install some packages before to build linux-6.5.y, e.g.,: 
-sudo apt install libssl-dev bc libelf-dev flex)
 
 
 
