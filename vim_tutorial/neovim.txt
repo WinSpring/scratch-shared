@@ -57,7 +57,10 @@ bear -- make -j4
 
 view $MYVIMRC for more detail while opening nvim
 
-gd: go to definition
+<space><space>: show a list of files in buffer (currently being edited)
+<space><s><f>: search files
+
+gd: go to definition or simply right click on the word and choose "go to definition" (but the files compile_commands.json needs to be generated beforehand)
 
 If gd does not jump correctly to the definition, another way is to use ctags:
 https://kulkarniamit.github.io/whatwhyhow/howto/use-vim-ctags.html
