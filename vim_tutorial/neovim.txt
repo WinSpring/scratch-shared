@@ -1,30 +1,52 @@
 Tested on Debian 12:
 
+(Source:
+# install neovim: 
+https://github.com/neovim/neovim/releases
+# install clangd:
+https://github.com/clangd/clangd/releases
+# configure neovim via kickstart.nvim
+https://github.com/nvim-lua/kickstart.nvim
+)
+
+sudo apt update
+
 sudo apt install cmake clangd-19 wget git build-essential libclang-dev
 
 sudo apt install bison byacc
 
+sudo apt install make gcc ripgrep fd-find unzip git xclip curl
 
-# install neovim: 
-https://github.com/neovim/neovim/releases
-
-# install clangd:
-https://github.com/clangd/clangd/releases
-
-# configure neovim via kickstart.nvim
-https://github.com/nvim-lua/kickstart.nvim
 
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh  (to have the command cargo below - package manager for rust)
 cargo install --locked tree-sitter-cli 
 
+# Now we install nvim
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+sudo rm -rf /opt/nvim-linux-x86_64
+sudo mkdir -p /opt/nvim-linux-x86_64
+sudo chmod a+rX /opt/nvim-linux-x86_64
+sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
 
-enable clangd in nvim config: ~/.config/nvim/init.lua
+# make it available in /usr/local/bin, distro installs to /usr/bin
+sudo ln -sf /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/
+
+
+# Clone kickstart.nvim
+git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
+
+#start Neovim
+nvim
+
+
+#enable clangd in nvim config: ~/.config/nvim/init.lua
 vim.lsp.enable("clangd") or similar in this config file
 
 
 An example to generate compile_commands.json for linux kernel using bear:
 sudo apt install bear
-cd linux-kernel-(directory)
+git clone --depth 1 --branch linux-6.5.y git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git linux-kernel-6.5.y
+cd linux-kernel-6.5.y
 make mrproper
 make defconfig
 bear -- make -j4
